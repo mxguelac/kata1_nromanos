@@ -102,6 +102,9 @@ def comprueba_excepciones(romano):
 def romano_a_entero(letras):
     valor_total = 0
     ultimo_valor = 0
+    valor_final = 0
+
+    
 
     comprueba_excepciones(letras)
 
@@ -110,16 +113,24 @@ def romano_a_entero(letras):
 
         if valor_actual <= 5 and ultimo_valor >= 50:
             raise RomanNumberError('Resta no permitida')
-        if valor_actual <= 10 and ultimo_valor >= 500:
+        if valor_actual <= 50 and ultimo_valor >= 500:
             raise RomanNumberError('Resta no permitida')
-            
+
+        if valor_actual < valor_final:
+            raise RomanNumberError('No está ordenado ascendente')
+        elif valor_final == valor_actual and ultimo_valor > valor_actual:
+            raise RomanNumberError ('Otras dos restas seguidas')
+
         
 
         if valor_actual >= ultimo_valor:
             valor_total += valor_actual
-        else:
+        elif numeral not in ('VLD'):
             valor_total -= valor_actual
+        else:
+            raise RomanNumberError('Resta de multiplo 5 no permitida')
     
+        valor_final = ultimo_valor
         ultimo_valor = valor_actual
         
 
