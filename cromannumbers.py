@@ -33,10 +33,45 @@ class RomanNumber:
     metodos mágicos para lógica
     """
     def __eq__(self, other):
+        other = self.__to_roman(other)
         return self.numero == other.numero
+    
+    def __req__(self, other):
+        return self.__eq__(other)
+    
+    def __lt__(self, other):
+        other = self.__to_roman(other)
+        return self.numero < other.numero
+    
+    def __le__(self, other):
+        other = self.__to_roman(other)
+        return self.numero <= other.numero
+    
+    def __gt__(self, other):
+        other = self.__to_roman(other)
+        return self.numero > other.numero
+    
+    def __ge__(self, other):
+        other = self.__to_roman(other)
+        return self.numero >= other.numero
+    
+    def __ne__(self, other):
+        other = self.__to_roman(other)
+        return self.numero != other.numero
+    
+    
+    
+
+
+
     """
     metodos mágicos para aritmética
     """
+    def __to_roman(self, otro):
+        if not isinstance(otro, RomanNumber):
+            otro = RomanNumber(otro)
+        return otro
+    
     def __mul__(self, otro):
         if not isinstance (otro, RomanNumber):
             otro = RomanNumber (otro)
@@ -48,9 +83,56 @@ class RomanNumber:
     def __rmul__ (self, otro):
         return self.__mul__(otro)
     
-    """
-    metodos mágicos para representación
-    """
+    def __add__(self, otro):
+        if not isinstance(otro, RomanNumber):
+            otro = RomanNumber(otro)
+        resultado = self.numero + otro.numero
+        return RomanNumber(resultado)
+    
+    def __radd__(self, otro):
+        return self.__add__(otro)
+    
+    def __floordiv__(self, otro):
+        if not isinstance(otro, RomanNumber):
+            otro = RomanNumber(otro)
+        resultado = self.numero // otro.numero
+        return RomanNumber(resultado)
+    
+    def __rfloordiv__(self, otro):
+        otro = RomanNumber(otro)
+        return otro.__floordiv__(self)
+        
+        #Otra forma de cambiar el orden
+        self, otro = otro, self
+        return self.__floordiv__(otro)
+       
+        #Otra forma de cambiar el orden
+        aux= otro
+        otro= self
+        self = aux
+    
+    def __sub__(self, otro ):
+        if not isinstance(otro, RomanNumber):
+            otro = RomanNumber(otro)
+        
+        return RomanNumber(self.numero - otro.numero)
+    
+    def __rsub__(self, otro):
+        otro = self.__to_roman(otro)
+
+        return otro.__sub__(self)
+
+    def __pow__(self, otro):
+        otro = self.__to_roman(otro) 
+        return RomanNumber(self.numero ** otro.numero)
+    
+    def __rpow__(self, otro):
+        otro = self.__to_roman(otro)
+        return otro.__pow__(self)
+    
+        """
+        metodos mágicos para representación
+        """
     def __repr__(self):
         return f"{self.numero} - {self.simbolo}"
 
